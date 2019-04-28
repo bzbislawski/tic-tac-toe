@@ -27,7 +27,9 @@ class GameService
             $newGame = new Game($newCells);
             $game = $newGame;
 
-            $output->writeln('End of a game');
         }
+
+        $game->displayBoard($output);
+        $output->writeln('End of a game');
     }
 }
