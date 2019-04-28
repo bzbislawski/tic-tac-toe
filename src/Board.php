@@ -8,8 +8,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Board
 {
+    const CELL_INDEXES = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     const HUMAN = 'x';
     const COMPUTER = 'o';
+
     /** @var array */
     private $cells;
 

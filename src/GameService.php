@@ -10,23 +10,24 @@ class GameService
 {
     public function runGame(InputInterface $input, OutputInterface $output, $helper, Game $game)
     {
-        $game->displayBoard($output);
+        while (!$game->isGameFinished()) {
 
-        $question = new Question('Please enter the cell index: ');
+            $game->displayBoard($output);
 
-        $index = $helper->ask($input, $output, $question);
-        $output->writeln('You have just selected: '.$index);
+            $question = new Question('Please enter the cell index [0-8]: ');
 
-        $newCells = $game->getCells();
-        $newCells[$index] = Board::HUMAN;
-        $newGame = new Game($newCells);
+            do {
+                $index = $helper->ask($input, $output, $question);
 
+                $output->writeln('You have just selected: ' . $index);
+            } while (!in_array((int) $index, Board::CELL_INDEXES));
 
-        if (!$newGame->isGameFinished()) {
-            $this->runGame($input, $output, $helper, $newGame);
-        } else {
+            $newCells = $game->getCells();
+            $newCells[$index] = Board::HUMAN;
+            $newGame = new Game($newCells);
+            $game = $newGame;
+
             $output->writeln('End of a game');
         }
     }
-
 }
