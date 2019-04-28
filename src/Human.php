@@ -16,7 +16,7 @@ class Human
             $index = $helper->ask($input, $output, $question);
 
             $output->writeln('You have just selected: ' . $index);
-        } while (!in_array((int) $index, Board::CELL_INDEXES));
+        } while (!in_array((int) $index, Board::CELL_INDEXES) || array_key_exists($index, $game->getCells()));
 
         $newCells = $game->getCells();
         $newCells[$index] = Board::HUMAN;
