@@ -2,19 +2,38 @@
 
 namespace TicTacToe;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
-class Game extends Command
+class Game
 {
-    public function configure()
+    /** @var array */
+    private $cells;
+
+    public function __construct(array $cells)
     {
-        $this->setName('play');
+        $this->cells = $cells;
     }
     
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function getCells()
     {
-        $output->writeln('hello world');
+        return $this->cells;
+    }
+
+    public function isGameFinished()
+    {
+        if(count($this->cells) < 9) {
+            return false;
+        }
+
+        foreach ($this->cells as $cell) {
+            if (empty($cell)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public function displayBoard($output)
+    {
+        $board = new Board($this->cells);
+        $board->displayBoard($output);
     }
 }
