@@ -8,7 +8,7 @@ class Computer
     {
         $cells = $game->getCells();
         do  {
-            $randomIndex = rand(0,9);
+            $randomIndex = rand(0, 8);
         } while (array_key_exists($randomIndex, $cells));
 
         $cells[$randomIndex] = Board::COMPUTER;
