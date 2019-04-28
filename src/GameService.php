@@ -27,6 +27,9 @@ class GameService
             $newGame = new Game($newCells);
             $game = $newGame;
 
+            $computer = new Computer();
+            $game = $computer->play($game);
+
         }
 
         $game->displayBoard($output);
