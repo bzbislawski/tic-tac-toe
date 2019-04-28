@@ -1,0 +1,19 @@
+{
+  "name": "bzbislawski/tic-tac-toe",
+  "description": "Tic tac toe game with AI.",
+  "require": {
+    "symfony/console": "^4.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "TicTacToe\\": "src"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bartosz Zbislawski",
+      "email": "bzbislawski@gmail.com"
+    }
+  ]
+}
