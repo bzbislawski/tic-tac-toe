@@ -4,7 +4,6 @@ namespace TicTacToe;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 
 class GameService
 {
@@ -14,22 +13,21 @@ class GameService
 
             $game->displayBoard($output);
 
-            $question = new Question('Please enter the cell index [0-8]: ');
+            $human = new Human();
+            $game = $human->play($input, $output, $helper, $game);
 
-            do {
-                $index = $helper->ask($input, $output, $question);
-
-                $output->writeln('You have just selected: ' . $index);
-            } while (!in_array((int) $index, Board::CELL_INDEXES));
-
-            $newCells = $game->getCells();
-            $newCells[$index] = Board::HUMAN;
-            $newGame = new Game($newCells);
-            $game = $newGame;
+            if ($game->isGameWonBy(Board::HUMAN)) {
+                $output->writeln('HUMAN is a winner!');
+                break;
+            }
 
             $computer = new Computer();
             $game = $computer->play($game);
 
+            if ($game->isGameWonBy(Board::COMPUTER)) {
+                $output->writeln('COMPUTER is a winner!');
+                break;
+            }
         }
 
         $game->displayBoard($output);

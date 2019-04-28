@@ -28,25 +28,27 @@ class Game
         return $this->cells;
     }
 
-    public function isGameFinished()
+    public function isGameWonBy($playerMark)
     {
         foreach (self::WIN_CONDITIONS as $condition) {
-            if (($this->cells[$condition[0]] === Board::COMPUTER && $this->cells[$condition[1]] === Board::COMPUTER && $this->cells[$condition[2]] === Board::COMPUTER) ||
-                ($this->cells[$condition[0]] === Board::HUMAN && $this->cells[$condition[1]] === Board::HUMAN && $this->cells[$condition[2]] === Board::HUMAN)) {
+            if ($this->cells[$condition[0]] === $playerMark && $this->cells[$condition[1]] === $playerMark && $this->cells[$condition[2]] === $playerMark) {
                 return true;
             }
         }
+    }
 
+    public function isGameFinished()
+    {
         if (count($this->cells) < 9) {
             return false;
         }
-
 
         foreach ($this->cells as $cell) {
             if (empty($cell)) {
                 return false;
             }
         }
+
         return true;
     }
 
