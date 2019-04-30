@@ -39,17 +39,7 @@ class Game
 
     public function isGameFinished()
     {
-        if (count($this->cells) < 9) {
-            return false;
-        }
-
-        foreach ($this->cells as $cell) {
-            if (empty($cell)) {
-                return false;
-            }
-        }
-
-        return true;
+        return count($this->cells) === 8;
     }
 
     public function displayBoard($output)
