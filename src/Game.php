@@ -28,6 +28,18 @@ class Game
         return $this->cells;
     }
 
+    public function getAvailableCells()
+    {
+        $availableCells = [0,1,2,3,4,5,6,7,8];
+        for ($i = 0; $i < 9; $i++) {
+            if (array_key_exists($i, $this->cells)) {
+                unset($availableCells[$i]);
+            }
+        }
+
+        return $availableCells;
+    }
+
     public function isGameWonBy($playerMark)
     {
         foreach (self::WIN_CONDITIONS as $condition) {
