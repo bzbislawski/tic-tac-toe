@@ -4,44 +4,47 @@ namespace TicTacToe;
 
 class Computer
 {
-    private $scores = [
-        0 => 0,
-        1 => 0,
-        2 => 0,
-        3 => 0,
-        4 => 0,
-        5 => 0,
-        6 => 0,
-        7 => 0,
-        8 => 0,
-    ];
-
     public function play(Game $game)
     {
         $cells = $game->getCells();
 
-        $this->isGameWon($game);
+        $movesScores = [];
+        $availableCells = $game->getAvailableCells();
+        foreach ($availableCells as $cellId) {
+            var_dump('rotation');
+            $movesScores[$cellId] = $this->minimax($game, $cellId);
+        }
 
-        var_dump($this->scores);
-        $move = array_keys($this->scores,max($this->scores));
+        var_dump($movesScores);
+        $move = array_keys($movesScores, max($movesScores));
 
         $cells[$move[0]] = Board::COMPUTER;
         return new Game($cells);
     }
 
-    private function isGameWon(Game $game)
+    private function minimax(Game $game, $cellId)
     {
-        $availableCells = $game->getAvailableCells();
-        foreach ($availableCells as $moveId) {
-            $newCells = $game->getCells();
-            $newCells[$moveId] = Board::COMPUTER;
-            $newGame = new Game($newCells);
-            if ($newGame->isGameWonBy(Board::COMPUTER)) {
-                $this->scores[$moveId] += 10;
-                break;
+        $cells = $game->getCells();
+        $cells[$cellId] = Board::COMPUTER;
+        $computerMoveGame = new Game($cells);
+        if ($computerMoveGame->isGameWonBy(Board::COMPUTER)) {
+            return 1;
+        }
+
+        $score = 0;
+        foreach ($computerMoveGame->getAvailableCells() as $humanMoveCellId) {
+            $humanMoveCells = $cells;
+            $humanMoveCells[$humanMoveCellId] = Board::HUMAN;
+            $humanMoveGame = new Game($humanMoveCells);
+            if ($humanMoveGame->isGameWonBy(Board::HUMAN)) {
+                $score -= 1;
             } else {
-                $this->isGameWon($newGame);
+                foreach ($humanMoveGame->getAvailableCells() as $moves) {
+                    $score = $this->minimax($humanMoveGame, $moves);
+                }
             }
         }
+
+        return $score;
     }
 }
