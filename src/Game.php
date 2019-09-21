@@ -49,6 +49,33 @@ class Game
         }
     }
 
+    public function isGameWinnableInNextTurnByPlayer(self $game, string $player): int
+    {
+        $availableMoves = $game->getAvailableCells();
+        foreach ($availableMoves as $cellId) {
+            $nextTurnCells = $game->getCells();
+            $nextTurnCells[$cellId] = $player;
+            $nextTurnGame = new Game($nextTurnCells);
+            if ($nextTurnGame->isGameWonBy($player)) {
+                return $cellId;
+            }
+        }
+
+        return -1;
+    }
+
+    public function isGameWinnableInNextTurnByPlayerForGivenMove(Game $game, string $player, $moveId)
+    {
+        $nextTurnCells = $game->getCells();
+        $nextTurnCells[$moveId] = $player;
+        $nextTurnGame = new Game($nextTurnCells);
+        if ($nextTurnGame->isGameWonBy($player)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function isGameFinished()
     {
         return count($this->cells) === 9;

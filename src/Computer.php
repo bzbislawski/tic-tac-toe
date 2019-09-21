@@ -10,6 +10,19 @@ class Computer
 
         $movesScores = [];
         $availableCells = $game->getAvailableCells();
+
+        $isNextTurnWinnableForComputer = $game->isGameWinnableInNextTurnByPlayer($game, Board::COMPUTER);
+        $isNextTurnWinnableForHuman = $game->isGameWinnableInNextTurnByPlayer($game, Board::HUMAN);
+
+        if ($isNextTurnWinnableForComputer > -1) {
+            $cells[$isNextTurnWinnableForComputer] = Board::COMPUTER;
+            return new Game($cells);        }
+
+        if ($isNextTurnWinnableForHuman > -1) {
+            $cells[$isNextTurnWinnableForHuman] = Board::COMPUTER;
+            return new Game($cells);
+        }
+
         foreach ($availableCells as $cellId) {
             $movesScores[$cellId] = $this->minimax($game, $cellId);
         }
