@@ -51,7 +51,7 @@ class Game
 
     public function isGameFinished()
     {
-        return count($this->cells) === 8;
+        return count($this->cells) === 9;
     }
 
     public function displayBoard($output)

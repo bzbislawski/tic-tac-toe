@@ -11,7 +11,6 @@ class Computer
         $movesScores = [];
         $availableCells = $game->getAvailableCells();
         foreach ($availableCells as $cellId) {
-            var_dump('rotation');
             $movesScores[$cellId] = $this->minimax($game, $cellId);
         }
 
@@ -40,7 +39,7 @@ class Computer
                 $score -= 1;
             } else {
                 foreach ($humanMoveGame->getAvailableCells() as $moves) {
-                    $score = $this->minimax($humanMoveGame, $moves);
+                    $score += $this->minimax($humanMoveGame, $moves);
                 }
             }
         }
