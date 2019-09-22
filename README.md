@@ -2,12 +2,17 @@
 
 ### About
 
-Implementation using only PHP and composer autoloading.
+Implementation using only PHP and composer auto-loading.
 
 ### Example run
-TBA
+<p align="center">
+    <img width="320" src="https://raw.githubusercontent.com/bzbislawski/tic-tac-toe/master/resources/gameplay.jpg">
+</p>
 
 ### External links
 Read more about:
 - the [game](https://en.wikipedia.org/wiki/Tic-tac-toe)
 - AI [minimax](https://en.wikipedia.org/wiki/Minimax) algorithm
+
+### TODO
+- optimise with search algorithm [alpha-beta pruning](https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
