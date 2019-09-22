@@ -6,8 +6,6 @@ class Computer
 {
     public function play(Game $game)
     {
-        $cells = $game->getCells();
-
         $movesScores = [];
         $availableCells = $game->getAvailableCells();
 
@@ -15,12 +13,11 @@ class Computer
         $isNextTurnWinnableForHuman = $game->isGameWinnableInNextTurnByPlayer($game, Board::HUMAN);
 
         if ($isNextTurnWinnableForComputer > -1) {
-            $cells[$isNextTurnWinnableForComputer] = Board::COMPUTER;
-            return new Game($cells);        }
+            return $game->playerMove($isNextTurnWinnableForComputer, Board::COMPUTER);
+        }
 
         if ($isNextTurnWinnableForHuman > -1) {
-            $cells[$isNextTurnWinnableForHuman] = Board::COMPUTER;
-            return new Game($cells);
+            return $game->playerMove($isNextTurnWinnableForHuman, Board::COMPUTER);
         }
 
         foreach ($availableCells as $cellId) {
@@ -29,24 +26,19 @@ class Computer
 
         $move = array_keys($movesScores, max($movesScores));
 
-        $cells[$move[0]] = Board::COMPUTER;
-        return new Game($cells);
+        return $game->playerMove($move[0], Board::COMPUTER);
     }
 
     private function minimax(Game $game, $cellId)
     {
-        $cells = $game->getCells();
-        $cells[$cellId] = Board::COMPUTER;
-        $computerMoveGame = new Game($cells);
+        $computerMoveGame = $game->playerMove($cellId, Board::COMPUTER);
         if ($computerMoveGame->isGameWonBy(Board::COMPUTER)) {
             return 1;
         }
 
         $score = 0;
         foreach ($computerMoveGame->getAvailableCells() as $humanMoveCellId) {
-            $humanMoveCells = $cells;
-            $humanMoveCells[$humanMoveCellId] = Board::HUMAN;
-            $humanMoveGame = new Game($humanMoveCells);
+            $humanMoveGame = $computerMoveGame->playerMove($humanMoveCellId, Board::HUMAN);
             if ($humanMoveGame->isGameWonBy(Board::HUMAN)) {
                 $score -= 1;
             } else {

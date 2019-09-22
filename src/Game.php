@@ -23,11 +23,6 @@ class Game
         $this->cells = $cells;
     }
 
-    public function getCells()
-    {
-        return $this->cells;
-    }
-
     public function getAvailableCells()
     {
         $availableCells = [0,1,2,3,4,5,6,7,8];
@@ -47,16 +42,16 @@ class Game
                 return true;
             }
         }
+
+        return false;
     }
 
-    public function isGameWinnableInNextTurnByPlayer(self $game, string $player): int
+    public function isGameWinnableInNextTurnByPlayer(self $game, string $playerMark): int
     {
         $availableMoves = $game->getAvailableCells();
         foreach ($availableMoves as $cellId) {
-            $nextTurnCells = $game->getCells();
-            $nextTurnCells[$cellId] = $player;
-            $nextTurnGame = new Game($nextTurnCells);
-            if ($nextTurnGame->isGameWonBy($player)) {
+            $nextTurnGame = $this->playerMove($cellId, $playerMark);
+            if ($nextTurnGame->isGameWonBy($playerMark)) {
                 return $cellId;
             }
         }
@@ -73,5 +68,18 @@ class Game
     {
         $board = new Board($this->cells);
         $board->displayBoard($output);
+    }
+
+    public function isMoveAvailable(int $index)
+    {
+        return !in_array((int) $index, Board::CELL_INDEXES) || array_key_exists($index, $this->cells);
+    }
+
+    public function playerMove($index, $playerMark)
+    {
+        $cells = $this->cells;
+        $cells[$index] = $playerMark;
+
+        return new Game($cells);
     }
 }
