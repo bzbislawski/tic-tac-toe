@@ -15,7 +15,7 @@ class Human
         do {
             $index = $helper->ask($input, $output, $question);
 
-            $output->writeln('You have just selected: ' . $index);
+            $output->writeln('You just have selected: ' . $index);
         } while (!in_array((int) $index, Board::CELL_INDEXES) || array_key_exists($index, $game->getCells()));
 
         $newCells = $game->getCells();

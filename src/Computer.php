@@ -27,7 +27,6 @@ class Computer
             $movesScores[$cellId] = $this->minimax($game, $cellId);
         }
 
-        var_dump($movesScores);
         $move = array_keys($movesScores, max($movesScores));
 
         $cells[$move[0]] = Board::COMPUTER;

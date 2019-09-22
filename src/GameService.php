@@ -21,6 +21,10 @@ class GameService
                 break;
             }
 
+            if ($game->isGameFinished()) {
+                break;
+            }
+
             $computer = new Computer();
             $game = $computer->play($game);
 
